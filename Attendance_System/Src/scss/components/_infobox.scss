@@ -1,0 +1,34 @@
+﻿
+
+.info-box {
+    background: none;
+    box-shadow: 0 0px 0px rgba(0,0,0,0.1);
+    border-radius: 2px;
+    margin-bottom: 35px;
+    margin: 0 auto;
+
+    .box-text {
+        font-size: 0.5em;
+        line-height: 25px;
+    }
+
+    span p {
+        font-size: 1.05em;
+        line-height: 50px;
+    }
+
+    .info-box-icon {
+        width: 420px;
+        height: 250px;
+    }
+
+    h2, .h2 {
+        margin-top: 0px;
+    }
+}
+
+
+.Attend-link, .Attend-confirm {
+    margin-bottom: 50px;
+}
+

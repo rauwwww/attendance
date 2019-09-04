@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    var userImage = "";
+
+    if (User.IsInRole("Admin"))
+    {
+        userImage = "admin.jpg";
+    }
+    else if (User.IsInRole("Teacher"))
+    {
+        userImage = "teacher.jpg";
+    }
+    else if (User.IsInRole("Student"))
+    {
+        userImage = "student.jpg";
+    }
+}
+
+
+            @if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav navbar-nav navbar-right" }))
+                {
+                        @Html.AntiForgeryToken()
+
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img class="user-image" src="~/Content/@userImage" />
+                            <span class="hidden-xs">@User.Identity.GetUserName()</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img class="user-image" src="~/Content/@userImage" />
+                                <p>
+                                    @User.Identity.GetUserName()
+                                    <small>@User.Identity.GetHashCode()</small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="text-center">
+                                    <a href="~/Manage/Index" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="user user-menu">
+                        <button onclick="javascript:document.getElementById('logoutForm').submit()" class="btn btn-info">
+                            Logout
+                        </button>
+                    </li>
+
+                }
+            }
+

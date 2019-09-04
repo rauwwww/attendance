@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Attendance_System.Models.Lecture>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lectures</h2>
+
+        <p>
+            @Html.ActionLink("Create new Lecture", "Create", null, new { @class = "btn btn-primary" })
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Course.CourseName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LectureName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Course.CourseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LectureName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.LectureId }, new { @class = "btn btn-primary" }) 
+                        @Html.ActionLink("Details", "Details", new { id=item.LectureId }, new { @class = "btn btn-primary" }) 
+                        @Html.ActionLink("Delete", "Delete", new { id=item.LectureId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>

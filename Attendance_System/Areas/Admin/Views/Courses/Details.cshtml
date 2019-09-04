@@ -1,0 +1,43 @@
+﻿@model Attendance_System.Models.Course
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Start)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.End)
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.CourseName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.End)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", null, new { id = Model.CourseId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        </tbody>
+</table>
+

@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+@Html.ActionLink("Create new User", "Create", null, new { @class = "btn btn-primary" })
+<p></p>
+
+<div class="table-responsive">
+    <table id="myDataTable" class="table table-striped table-advance table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Firstname
+                </th>
+                <th>
+                    Lastname
+                 </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Role
+                </th>
+                <th>Actions</th>
+            </tr>
+        </thead>     
+    </table>
+    </div>
+
+@* Load datatable css *@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@* Load datatable js *@
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+
+ 
+
+<script>
+    var theElement = "";
+
+    window.onload = function () {
+        $(document).ready(function () {
+            $('#myDataTable').DataTable({
+                "ajax": {
+                    "url": '/Admin/Account/LoadData',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": 5,
+                    "render": function (data, type, row, meta) {
+                        var ApplicationUserId = row[0];
+                        return '<a type="button" class="btn btn-primary" href="/Admin/Account/Edit/' + data + '">Edit</a>' +
+                            '<a type="button" class="btn btn-danger" href="/Admin/Account/Delete/' + data + '">Delete</a>';
+                    }
+                }],
+                "columns": [
+                    { "data": "UserName", "autoWidth": true },
+                    { "data": "FirstName", "autoWidth": true },
+                    { "data": "LastName", "autoWidth": true },
+                    { "data": "Email", "autoWidth": true },
+                    { "data": "Roles", "autoWidth": true },
+                    { "data": "ApplicationUserId", "AuthWidth":true }
+                ],
+            });
+        });
+    }
+
+</script>
+}

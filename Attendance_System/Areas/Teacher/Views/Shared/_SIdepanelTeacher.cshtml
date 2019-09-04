@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNet.Identity
+
+
+@{
+    var hideClass = "";
+
+    if (!Request.IsAuthenticated)
+    {
+        hideClass = "hide-me";
+    }
+    else
+    {
+        hideClass = "main-sidebar";
+    }
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="@hideClass">
+        <section class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    I want to be Image
+                </div>
+                <div class="pull-left info">
+                    <i class="fa fa-gears"></i>
+                    @Html.ActionLink("Hello  " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </div>
+            </div>
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <!-- Optionally, you can add icons to the links -->
+                <li class="active"><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                @if (User.IsInRole("Admin"))
+                {
+                    <li><a class="logo" href="@Url.Action("Index", "Student", new { area = "" })"><i class="fa fa-users"></i>Students</a></li>
+                }
+                <li>
+                <li><a class="logo" href="@Url.Action("Index", "Course", new { area = "" })"><i class="fa fa-book"></i>Courses</a></li></li>
+
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+}

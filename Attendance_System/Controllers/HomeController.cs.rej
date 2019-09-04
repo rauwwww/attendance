@@ -1,0 +1,10 @@
+diff a/Attendance_System/Controllers/HomeController.cs b/Attendance_System/Controllers/HomeController.cs	(rejected hunks)
+@@ -17,7 +17,7 @@
+             else if (User.IsInRole("Teacher"))
+                 return View("Teacher");
+             else if (User.IsInRole("Student"))
+-                return RedirectToAction("Index", "Account", new { area = "Student" });
++                return View("Student");
+             else
+                 return View("../Account/Login");
+         }

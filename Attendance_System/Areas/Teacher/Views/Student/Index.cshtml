@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+<div class="table-responsive">
+    <table id="myDataTable" class="table table-striped table-advance table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Firstname
+                </th>
+                <th>
+                    Lastname
+                </th>
+                <th>
+                    Email
+                </th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@* Load datatable css *@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet" />
+@* Load datatable js *@
+@section Scripts{
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+
+
+<script>
+
+    window.onload = function () {
+        $(document).ready(function () {
+            $('#myDataTable').DataTable({
+                "ajax": {
+                    "url": '/Teacher/Student/LoadData',
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": 4,
+                    "render": function (data, type, row, meta) {
+                        var ApplicationUserId = row[0];
+                        return '<a type="button" class="btn btn-primary" href="/Teacher/Student/Details/' + data + '">View</a>';
+                    }
+                }],
+                "columns": [
+                    { "data": "UserName", "autoWidth": true },
+                    { "data": "FirstName", "autoWidth": true },
+                    { "data": "LastName", "autoWidth": true },
+                    { "data": "Email", "autoWidth": true },
+                    { "data": "ApplicationUserId", "AuthWidth":true }
+                ],
+            });
+        });
+    }
+
+</script>
+}

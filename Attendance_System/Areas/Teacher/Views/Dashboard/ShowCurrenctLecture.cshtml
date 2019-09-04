@@ -1,0 +1,65 @@
+﻿@model Attendance_System.ViewModels.AttendanceViewModel
+
+@{
+    ViewBag.Title = "ShowCurrenctLecture";
+}
+
+<h2>Attendance for the current Lecture</h2>
+
+
+
+    
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Arrival timestamp
+            </th>
+        </tr>
+    
+    </thead>
+
+    <tbody id="Attendances">
+        <tr>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
+@section scripts{
+<script type="text/javascript">
+
+            function ToJavaScriptDate(value) {
+                var pattern = /Date\(([^)]+)\)/;
+                var results = pattern.exec(value);
+                var dt = new Date(parseFloat(results[1]));
+                return dt.getDate() + "/" + (dt.getMonth() + 1) + "  -  " + dt.getHours() + ":" + dt.getMinutes();
+            }
+            function getData() {
+                $.ajax({
+                    type: "GET",
+                    url: "/Teacher/Dashboard/LoadData",
+                    dataType: "json"
+                })
+                .done(function (result) {
+                    $("#Attendances").empty();
+                    for (var i = 0; i < result.data.length; i++){
+                        $("#Attendances").append("<tr><td>" + result.data[i].FirstName + "  " + result.data[i].LastName + "</td>" + "<td>" + ToJavaScriptDate(result.data[i].ArrivalTime) + "</td></tr>");
+                    }           
+                   
+                    setTimeout(getData, 5000);
+                });
+            }
+            getData();
+</script>
+}

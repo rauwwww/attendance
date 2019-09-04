@@ -1,0 +1,63 @@
+﻿
+@model Attendance_System.DTO.StudentCourseDTO
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{
+    string applicationUserName = "";
+}
+
+<table id="myDataTable" class="table table-striped table-advance table-hover">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Course
+            </th>
+            <th>
+                Start
+            </th>
+            <th>
+                End
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Enrollment)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.Start)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Course.End)
+                </td>
+                <td>
+                    @Html.ActionLink("Select", "Index", null, new { id = item.CourseId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+

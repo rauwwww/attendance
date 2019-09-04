@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin Area</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/all.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.0/js/v4-shims.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.1/css/hover-min.css" integrity="sha256-JdAl3R4Di+wuzDEa1a878QE+aqnlP4KeHc5z1qAzQa4=" crossorigin="anonymous" />
+    @Styles.Render("~/Content/css")
+</head>
+
+<body class="skin-blue">
+
+    <header class="main-header">
+        <a class="logo">
+            <span class="logo-lg"><b>AttendanceSystem</b></span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    @Html.Partial("_LoginPartial")
+                </ul>
+            </div>
+        </nav>
+</header>
+
+<!-- Sidepanel -->
+@Html.Partial("_Sidepanel")
+<!-- /Sidepanel -->
+
+<!-- Main Content -->
+<div class="content-wrapper">
+    <div class="container">
+        @RenderBody()
+    </div>
+</div>
+    
+@Html.Partial("_Footer")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
+
+
+</body>
+
+</html>

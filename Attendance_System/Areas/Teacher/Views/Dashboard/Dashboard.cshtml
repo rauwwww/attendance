@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Attendance_System.Models.Lecture>
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+<h2>Dashboard - Teacher</h2>
+<tbody id="Attendances"></tbody>
+
+<div class="panel panel-primary">
+    <div class="row margin-topset margin-offset col-centered">
+        <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box bounceIn">
+                <span class="info-box-icon bg-yellow-active">
+                    <i class="fa fa-gear"></i>
+                    <h2>Current Lecture:</h2>
+
+                    @if (ViewBag.message != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <span class="info-box-text">
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Course.CourseName)
+                                    @Html.DisplayFor(modelItem => item.LectureName)
+                                    @Html.DisplayFor(modelItem => item.StartTime)
+                                </p>
+                                <a class="Attend-link btn btn-primary" href="@Url.Action("ShowCurrenctLecture", new { id = item.LectureId })">Show Attendance</a>
+
+                            </span>
+                            <div class="confirmation hide"><span class="info-box-text confirmation btn btn-success">Attended!</span></div>
+                        }
+                    }
+                    @if (ViewBag.message == null)
+            {
+                        <span class="info-box-text">
+                            <p>
+                                <h4>Nothing to Attend</h4>
+                            </p>
+
+                        </span>
+                    }
+
+            </div>
+        </div>
+
+
+
+        <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red-active">
+                    <i class="fa fa-clock-o"></i>
+                    @{
+                        Html.RenderAction("NextLecture", "Dashboard");
+                    }
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="panel panel-primary">
+        <div class="row margin-topset margin-offset col-centered">
+            <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua-active">
+                        <i class="ion fa fa-users"></i>
+                        <h2>My colleagues</h2>
+                        <div id="totalTeachers">14</div>
+                    </span>
+
+
+                </div>
+            </div>
+
+            <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green-active">
+                        <i class="fa fa-book"></i>
+                        <h2>Time spent lecturing</h2>
+                        <div id="totalTeachers">72 days </div>
+                    </span>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @section scripts{
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".Attend-confirm").click(function () {
+                    $(".confirmation").addClass("show");
+                });
+            });
+        </script>
+
+    }

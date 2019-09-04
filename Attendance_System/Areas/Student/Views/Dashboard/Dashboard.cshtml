@@ -1,0 +1,163 @@
+﻿@model IEnumerable<Attendance_System.Models.Lecture>
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+
+<div class="panel panel-primary">
+    <div class="row margin-topset margin-offset col-centered">
+        <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box bounceIn">
+                <span class="info-box-icon bg-yellow-active"><i class="fa fa-gear"></i>
+                <h2>Current Lecture:</h2>
+            
+                @if (ViewBag.message != null)
+                {
+                    foreach (var item in Model)
+                    {
+                     <span class="info-box-text">
+                        <p>
+                            @Html.DisplayFor(modelItem => item.Course.CourseName)
+                            @Html.DisplayFor(modelItem => item.LectureName)
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </p>                     
+                        <a class="Attend-link btn btn-primary" href="@Url.Action("Attend", new { id = item.LectureId })">Attend</a>
+                        <div class="btn btn-primary Attend-confirm" style="display:none" data-Attend-id="@item.LectureId">Confirm Attendance</div>                     
+
+                     </span>
+                     <div class="confirmation hide"><span class="info-box-text confirmation btn btn-success">Attended!</span></div>
+                    }
+                }
+                @if (ViewBag.message == null)
+                {
+                    <span class="info-box-text">
+                        <p>
+                           <h4>Nothing to Attend</h4>
+                        </p>
+               
+                  </span>
+                }
+
+             </div>
+        </div>
+
+
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red-active">
+                    <i class="fa fa-clock-o"></i>
+                    @{
+                        Html.RenderAction("NextLecture", "Dashboard");
+                    }
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="row margin-topset margin-offset col-centered">
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua-active">
+                    <i class="ion fa fa-users"></i>
+                    <h2>My highest attendance</h2>
+                    <div id="totalStudents">80% in Backend</div>
+                </span>
+
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green-active">
+                    <i class="fa fa-user"></i>
+                    <h2>My Courses</h2>
+                    <div id="totalStudents">4</div>
+                </span>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    @section scripts{
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".Attend-confirm").click(function () {
+                    $(".confirmation").addClass("show");
+                });
+            });
+        </script>
+
+        <script type="text/javascript">
+    $(function () {
+        $("a.Attend-link").click(function () {
+            var AttendLink = $(this);
+            AttendLink.hide();
+            var confirmButton = AttendLink.siblings(".Attend-confirm");
+            confirmButton.show();
+
+            var cancelAttend =  function () {
+                removeEvents();
+                showAttendLink();
+            };
+
+            var AttendItem = function () {
+                removeEvents();
+                confirmButton.hide();
+                $.post(
+                    '@Url.Action("Attend")',
+                    AddAntiForgeryToken({ id: confirmButton.attr('data-Attend-id') }))
+                   .done(function () {
+                       var parentRow = AttendLink.parents(".Attend-confirm");
+                       parentRow.fadeOut('fast', function () {
+                           parentRow.remove();
+                       });
+                   }).fail(function (data) {
+                       alert("error");
+                   });
+                return false;
+            };
+
+            var removeEvents = function () {
+                confirmButton.off("click", AttendItem);
+                $(document).on("click", cancelAttend);
+                $(document).off("keypress", onKeyPress);
+            };
+
+            var showAttendLink = function () {
+                confirmButton.hide();
+                AttendLink.hide();
+            };
+
+            var onKeyPress = function (e) {
+                //Cancel if escape key pressed
+                if (e.which == 27) {
+                    cancelDelete();
+                }
+            };
+
+            confirmButton.on("click", AttendItem);
+            $(document).on("click", cancelAttend);
+            $(document).on("keypress", onKeyPress);
+
+            return false;
+        });
+
+        AddAntiForgeryToken = function (data) {
+            data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+            return data;
+        };
+    });
+        </script>
+    }
+

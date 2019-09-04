@@ -1,0 +1,87 @@
+﻿@using Microsoft.AspNet.Identity  
+
+
+@{ 
+    var hideClass = "";
+
+
+    if (!Request.IsAuthenticated)
+    {
+        hideClass = "hide-me";
+    }
+    else
+    {
+        hideClass = "main-sidebar";
+    }
+
+
+    var userImage = "";
+
+    if (User.IsInRole("Admin"))
+    {
+        userImage = "admin.jpg";
+    }
+    else if (User.IsInRole("Teacher"))
+    {
+        userImage = "teacher.jpg";
+    }
+    else if (User.IsInRole("Student"))
+    {
+        userImage = "student.jpg";
+    }
+
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="@hideClass">
+        <section class="sidebar">
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img class="user-image" src="~/Content/@userImage" />
+                </div>
+                <div class="pull-left info">
+                    <a href="~/Manage/Index">Hello @User.Identity.GetUserName()</a>
+                </div>
+            </div>
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+
+                @if (User.IsInRole("Teacher"))
+    {
+            <li><a href="@Url.Action("Dashboard", "Dashboard", new { area = "Teacher" })"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+
+}
+                @if (User.IsInRole("Student"))
+    {
+            <li><a href="@Url.Action("Dashboard", "Dashboard", new { area = "Student" })"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+            <li><a href="@Url.Action("Index", "Course", new { area = "Student" })"><i class="fa fa-book"></i> <span>My Courses</span></a></li>
+            <li><a href="@Url.Action("_StudentChart", "Dashboard", new { area = "Student" })"><i class="fa fa-stack-exchange"></i> <span>Statistics</span></a></li>
+}
+
+                @if (User.IsInRole("Admin"))
+    {
+            <li><a href="@Url.Action("Dashboard", "Dashboard", new { area = "Admin" })"><i class="fa fa-users"></i> <span>DashBoard</span></a></li>
+
+            <li><a href="@Url.Action("Index", "Account", new { area = "Admin" })"><i class="fa fa-users"></i> <span>Users</span></a></li>
+
+            <li><a href="@Url.Action("Index", "Courses", new { area = "Admin" })"><i class="fa fa-book"></i> <span>Courses</span></a></li>
+
+            <li><a href="@Url.Action("Index", "Enrollments", new { area = "Admin" })"><i class="fa fa-graduation-cap"></i> <span>Enrollment</span></a></li>
+
+            <li><a href="@Url.Action("Index", "Lectures", new { area = "Admin" })"><i class="fa fa-list-ul"></i> <span>Lecture</span></a></li>
+
+            <li><a href="@Url.Action("_AdminChart", "Dashboard", new { area = "Admin" })"><i class="fa fa-stack-exchange"></i> <span>Statistics</span></a></li>
+}
+                @if (User.IsInRole("Teacher"))
+    {
+            <li><a href="@Url.Action("Index", "Course", new { area = "Teacher" })"><i class="fa fa-book"></i> <span>Courses</span></a></li>
+            <li><a href="@Url.Action("Index", "Student", new { area = "Teacher" })"><i class="fa fa-users"></i> <span>Students</span></a></li>
+            <li><a href="@Url.Action("_TeacherChart", "Dashboard", new { area = "Teacher" })"><i class="fa fa-stack-exchange"></i> <span>Statistics</span></a></li>
+            <li><a href="@Url.Action("Index", "Lectures", new { area = "Teacher" })"><i class="fa fa-list-ul"></i> <span>Lectures</span></a></li>
+}
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+}

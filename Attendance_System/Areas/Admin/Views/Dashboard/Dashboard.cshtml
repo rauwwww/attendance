@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<div class="row margin-topset margin-offset col-centered">
+    <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+        <div class="info-box hvr-curl-top-left">
+            <span class="info-box-icon bg-yellow-active">
+                <i class="fa fa-clock-o"></i> 
+                @{
+                    Html.RenderAction("NextLecture", "Dashboard");
+                }
+                
+            </span>   
+
+        </div>
+    </div>
+
+    <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+        <div class="info-box hvr-curl-top-left">
+            <span class="info-box-icon bg-aqua-active">
+                <i class="ion fa fa-users hvr-pulse"></i>
+                <h2>Enrolled Students</h2>
+                <div id="totalStudents"></div>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="row col-centered">
+    <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+        <div class="info-box hvr-curl-top-left">
+            <span class="info-box-icon bg-red-active">
+                <i class="ion fa fa-users hvr-pulse"></i>
+                <h2>Staff</h2>
+                <div>15</div>
+
+            </span>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col col-md-12 col-sm-12 col-xs-12">
+        <div class="info-box hvr-curl-top-left">
+            <span class="info-box-icon bg-green-active">
+                <i class="fa fa-graduation-cap hvr-pulse"></i>
+                <h2>Programes</h2>
+                <div>5</div>
+            </span>
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+<script>
+    $.ajax({
+        url: "/Admin/Dashboard/LoadStudents",
+        dataType: "json"
+    }).done(function (data) {
+        $('#totalStudents').append(data.data);
+    });
+</script>
+}

@@ -1,0 +1,48 @@
+﻿    <div style="text-align:center">
+        <canvas id="barcanvas" width="600" height="600"></canvas>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
+<script>
+
+        var barChartData =
+            {
+                labels: ["Backend", "Frontend", "Database", "Interface Design","Disciplinary Showoff"],
+                datasets: [{
+                    label: 'Lecture pr. Course',
+                    backgroundColor: [
+                        "#f990a7",
+                        "#aad2ed",
+                        "#9966FF",
+                        "#99e5e5",
+                        "#f7bd83",
+                    ],
+                    borderWidth: 1,
+                    data: [@ViewBag.LectureCount_List]
+                }]
+
+
+            };
+
+        window.onload = function () {
+            var ctx1 = document.getElementById("barcanvas").getContext("2d");
+                window.myBar = new Chart(ctx1,
+                    {
+                        type: 'pie',
+                        data: barChartData,
+                        options:
+                            {
+                                title:
+                                {
+                                    display: true,
+                                    text: "Lecture pr. Course"
+                                },
+                                responsive: true,
+                                maintainAspectRatio: false
+                            }
+                    });
+            }
+</script>
+
+
+

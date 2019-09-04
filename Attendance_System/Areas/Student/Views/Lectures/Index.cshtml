@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Attendance_System.Models.Lecture>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Course.CourseName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LectureName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course.CourseName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LectureName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+s
+        <td>
+            <div class="Attend-section">
+                <a class="Attend-link" href="@Url.Action("Attend", new {id = item.LectureId})">Attend</a>
+                <div class="btn btn-primary Attend-confirm" style="display:none" data-attend-id="@item.LectureId">Confirm Attend</div>
+            </div>
+        </td>
+    </tr>
+
+    
+}
+</table>
+
+@section scripts{
+    <script type="text/javascript">
+    $(function () {
+        $("a.Attend-link").click(function () {
+            var AttendLink = $(this);
+            AttendLink.hide();
+            var confirmButton = AttendLink.siblings(".Attend-confirm");
+            confirmButton.show();
+
+            var cancelAttend =  function () {
+                removeEvents();
+                showAttendLink();
+            };
+
+            var AttendItem = function () {
+                removeEvents();
+                confirmButton.hide();
+                $.post(
+                    '@Url.Action("Attend")',
+                    AddAntiForgeryToken({ id: confirmButton.attr('data-Attend-id') }))
+                   .done(function () {
+                       var parentRow = AttendLink.parents("tr:first");
+                       parentRow.fadeOut('fast', function () {
+                           parentRow.remove();
+                       });
+                   }).fail(function (data) {
+                       alert("error");
+                   });
+                return false;
+            };
+
+            var removeEvents = function () {
+                confirmButton.off("click", AttendItem);
+                $(document).on("click", cancelAttend);
+                $(document).off("keypress", onKeyPress);
+            };
+
+            var showAttendLink = function () {
+                confirmButton.hide();
+                AttendLink.show();
+            };
+
+            var onKeyPress = function (e) {
+                //Cancel if escape key pressed
+                if (e.which == 27) {
+                    cancelDelete();
+                }
+            };
+
+            confirmButton.on("click", AttendItem);
+            $(document).on("click", cancelAttend);
+            $(document).on("keypress", onKeyPress);
+
+            return false;
+        });
+
+        AddAntiForgeryToken = function (data) {
+            data.__RequestVerificationToken = $('input[name=__RequestVerificationToken]').val();
+            return data;
+        };
+    });
+    </script>
+    }
+
